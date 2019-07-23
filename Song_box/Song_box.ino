@@ -1,5 +1,6 @@
 /*
  * Toca duas músicas, dó,ré,mi,fá e soft kitty, dependendo do botão apertado. Também conta com LEDS representando as notas tocadas.
+ * É preciso ter a biblioteca Pitches.h no diretório Arduino>libraries, só colar a pasta existente no repositório.
  * 
  * Letícia Pegoraro Garcez 2019
 */
