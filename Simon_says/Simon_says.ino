@@ -1,123 +1,139 @@
+/*Simon-Says (Gênio)
+
+   O jogo pode ser rodado com opção de alocação dinâmica ou estática de memória. A alocação estática, consome 11% de storage e 4% de memória dinâmica, enquanto a alocação dinâmica consome 15% de storage e
+   2% de memória dinâmica (Arduino Uno). As linhas de código referente a opção de memória estão marcadas com um comentáio, logo depois dos defines, (declaração do vetor que vai armazenar a sequência) e inicio da
+   função adicionaNovo() (inserção de um novo item na sequência). O jogo está originalmente setado com alocação estática.
+
+   Letícia Pegoraro Garcez 2019
+*/
 //entradas
-#define l1 2
-#define l2 3
-#define l3 4
-#define l4 5 
-#define b1 8
-#define b2 9
-#define b3 10
-#define b4 11
+#define led1 2
+#define led2 3
+#define led3 4
+#define led4 5
+#define btn1 8
+#define btn2 9
+#define btn3 10
+#define btn4 11
 #define sb 7
 //sounds for each led and one for the wrong function.
-#define sl1 1047
-#define sl2 1175
-#define sl3 1319
-#define sl4 1397
-#define swrong 2093
-int used_pos = 0;//Variável pra contar as posições que eu tenho no vetor.
-int seq[50];//vetor de 50 posições pra armazenar os valores referentes a cada posição.
+#define SOUND1 1047
+#define SOUND2 1175
+#define SOUND3 1319
+#define SOUND4 1397
+#define SOUND_WRONG 2093
+
+int posicoes;
+//int *sequencia = (int*)malloc(sizeof(int));//ALOCAÇÃO DINÂMICA
+int sequencia[30];//ALOCAÇÃO ESTÁTICA
+void adicionaNovo (void);
+void piscaLed(int n);
+void playSequencia(void);
+void confere(void);
+void playWrong(void);
+
 void setup() {
-  pinMode(l1,OUTPUT);
-  pinMode(l2,OUTPUT);
-  pinMode(l3,OUTPUT);
-  pinMode(l4,OUTPUT);
-  pinMode(b1,INPUT);
-  pinMode(b2,INPUT);
-  pinMode(b3,INPUT);
-  pinMode(b4,INPUT);
-  pinMode(sb,OUTPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+  pinMode(btn1, INPUT);
+  pinMode(btn2, INPUT);
+  pinMode(btn3, INPUT);
+  pinMode(btn4, INPUT);
+  pinMode(sb, OUTPUT);
 }
 
-void adiciona (void);
-void pisca_led(int led);
-void play_sequencia(void);
-void confere(void);
-void wrong(void);
-
 void loop() {
-  adiciona();//Insere a sequência
+  adicionaNovo();//Insere a sequência
   delay(700);
-  confere();//Confere a sequência. Com uma pausa pra não ficar muito corrido.
+  confere();//Confere a sequência.
   delay(800);
 }
 
-void adiciona(void){
-  randomSeed(millis());//Esse comando aqui torna as coisas realmente random.
-  if(used_pos!=0){//Se eu já tiver coisa no vetor, reproduzo o que está no vetor
-    play_sequencia();
-  }
-  seq[used_pos] = random(1,5);//Gera um random entre 1 e 4, ai é só associar ao pino;
-  pisca_led(seq[used_pos]);
-  used_pos++;//Incrementa o contador de posições usadas que eu tenho.
- 
-}
-void pisca_led (int led){//Os valores 1,2,3,4 são associados ás saídas. Essa função acende o led e toca o som correspondente ao número no vetor.
-  if (led == 1){
-    digitalWrite(l1,HIGH);
-    tone(sb,sl1);
-    delay(500);
-    noTone(sb);
-    digitalWrite(l1,LOW);
-  }
-  else if(led ==2){
-    digitalWrite(l2,HIGH);
-    tone(sb,sl2);
-    delay(500);
-    digitalWrite(l2,LOW);
-    noTone(sb);
-  }
-  else if(led==3){
-    digitalWrite(l3,HIGH);
-    tone(sb,sl3);
-    delay(500);
-    digitalWrite(l3,LOW);
-    noTone(sb);
-  }
-  else if(led==4){
-    digitalWrite(l4,HIGH);
-    tone(sb,sl4);
-    delay(500);
-    noTone(sb);
-    digitalWrite(l4,LOW);
-  }
-}
-void play_sequencia(void){ //sem muito o que explicar aqui.
-  int contador;
-  for(contador=0;contador<used_pos;contador++){
-    pisca_led(seq[contador]);
-    delay(500);
-  }
-}
-void confere(void){//Dá pra melhorar, mas assim tá fucnionando razoávelmente bem.
-  int pressed=0,contador=0,x;
-    while(contador<used_pos){//Enquanto eu não tiver feito todos os elementos da sequência ele continua esperando.
-      x = seq[contador];//isso é só porque eu ia ter que escrever seq[contador] demais.
-      if ((digitalRead(b1)==1 && x==1) || (digitalRead(b2)==1 && x==2) || (digitalRead(b3)==1 && x==3) || (digitalRead(b4)==1 && x==4)){
-        //Basicamente se eu aperto o botão correspondente a posição certa que tá no vetor, ele fica esperando a entrada da próxima posição. Ele só acende o led do botão que eu apertei se eu acertei
-        pisca_led(x);
-        contador++;
-      }
-      else if ((digitalRead(b1)==1 && x!=1) || (digitalRead(b2)==1 && x!=2) || (digitalRead(b3)==1 && x!=3) || (digitalRead(b4)==1 && x!=4)){
-        wrong();//SE eu apertei o botão diferente do que ele estava esperando ele roda a função de finalizar o jogo. Nessa função ele zera o c, então quando volta pra cá,
-        //Sai automaticamente do loop e volta pro programa principal, então começa adicionando tudo do zero.
-      }
+void adicionaNovo(void) {
+  /*
+    sequencia = (int*) realloc (sequencia,(posicoes+1)*sizeof(int));
+    if(sequencia == NULL){//caso ocorra algum problema
+    playWrong();
     }
+  *///ALOCAÇÃO DINÂMICA
+
+  if (posicoes != 0) { //Exibir o que tenho armazenado no vetor
+    playSequencia();
+  }
+  randomSeed(millis());//A seed do random vira o tempo atual de execução, o que faz com que as sequencias possam ser diferentes
+  sequencia[posicoes] = random(1, 5); //Gera um random entre 1 e 4
+  piscaLed(sequencia[posicoes]);
+  posicoes++;
+
 }
 
-void wrong (void){
-  digitalWrite(l1,HIGH);
-  digitalWrite(l2,HIGH);
-  digitalWrite(l3,HIGH);
-  digitalWrite(l4,HIGH);
-  tone(sb,swrong);
-  delay(1500);//Deixa as leds e o som ligados um pouquinho depois desliga tudo
-  noTone(sb);
-  digitalWrite(l1,LOW);
-  digitalWrite(l2,LOW);
-  digitalWrite(l3,LOW);
-  digitalWrite(l4,LOW);
-  for(int contador = 0;contador<used_pos;contador++){//Isso aqui zera o meu vetor. Não que eu precisasse, porque ele pode ir só sobreescrevendo, mas eu quis.
-    seq[contador]=0;
+void piscaLed (int n) { //Os valores 1,2,3,4 são associados ás saídas.
+  switch (n) {
+    case 1:
+      digitalWrite(led1, HIGH);
+      tone(sb, SOUND1);
+      delay(500);
+      noTone(sb);
+      digitalWrite(led1, LOW);
+      break;
+    case 2:
+      digitalWrite(led2, HIGH);
+      tone(sb, SOUND2);
+      delay(500);
+      digitalWrite(led2, LOW);
+      noTone(sb);
+      break;
+    case 3:
+      digitalWrite(led3, HIGH);
+      tone(sb, SOUND3);
+      delay(500);
+      digitalWrite(led3, LOW);
+      noTone(sb);
+      break;
+    case 4:
+      digitalWrite(led4, HIGH);
+      tone(sb, SOUND4);
+      delay(500);
+      noTone(sb);
+      digitalWrite(led4, LOW);
   }
-  used_pos = 0;//Posições usadas no vetor:0.Ai vai.
+}
+
+void playSequencia(void) { //sem o que explicar aqui.
+  for (int contador = 0; contador < posicoes; contador++) {
+    piscaLed(sequencia[contador]);
+    delay(500);
+  }
+}
+
+void confere(void) {
+  int contador = 0;
+  while (contador < posicoes) { //Enquanto eu não tiver dado entrada para todos os elementos da sequência ele continua esperando.
+    if ((digitalRead(btn1) && sequencia[contador] == 1) || (digitalRead(btn2) && sequencia[contador] == 2) || (digitalRead(btn3) && sequencia[contador] == 3) || (digitalRead(btn4) && sequencia[contador] == 4)) {
+      //Se o botão apertado corresponder a cor certa, ele fica esperando a entrada da próxima posição.
+      piscaLed(sequencia[contador]);//Acende o led correto
+      contador++;
+    }
+    else if ((digitalRead(btn1) && sequencia[contador] != 1) || (digitalRead(btn2) && sequencia[contador] != 2) || (digitalRead(btn3) && sequencia[contador] != 3) || (digitalRead(btn4) && sequencia[contador] != 4)) {
+      //Aqui precisa ser else if é pro programa esperar a entrada, do contrário simplesmente toca o wrong assim que o primeiro led correto é apertado.
+      playWrong();//Se o botão  é diferente do que ele estava esperando ele roda a função de finalizar o jogo. Nessa função ele zera a quantidade de posições, o que sai do loop automaticamente.
+    }
+  }
+}
+
+void playWrong (void) {
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, HIGH);
+  tone(sb, SOUND_WRONG);
+  delay(1500);//Deixa os leds e o som ligados um pouco
+  noTone(sb);
+  digitalWrite(led1, LOW);
+  digitalWrite(led2, LOW);
+  digitalWrite(led3, LOW);
+  digitalWrite(led4, LOW);
+  posicoes = 0;//Zera o número de posições, então ele vai começar a preencher o vetor novamente do zero na próxima iteração do void loop
 }
