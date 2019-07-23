@@ -44,6 +44,7 @@ void setup() {
 int potenciometerRead;
 
 void loop() {
+  //Inserir aqui a função
   playDoReMiCatodoComum();
 
 }
