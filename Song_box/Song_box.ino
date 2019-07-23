@@ -25,14 +25,11 @@ void setup() {
   pinMode(btn2, INPUT);
 }
 
-int bs1, bs2; //Estados dos botões
 void loop() {
-  bs1 = digitalRead(btn1);
-  bs2 = digitalRead(btn2);
-  if (bs1 == 1) {
+  if (digitalRead(btn1) == HIGH) {//Se o botão 1 é apertado
     play_do_re_mi();
   }
-  else if (bs2 == 1) {
+  else if (digitalRead(btn2) == HIGH) {//Se o botão 2 é apertado
     play_soft_kitty();
   }
   else {
@@ -41,15 +38,15 @@ void loop() {
 }
 
 void play_soft_kitty(void) {
-  //25 - tamanho dos vetores
+  //25 - tamanho dos vetores. Garantir que os dois vetores tenham o mesmo tamanho.
   int soft_kitty_notes[] = {NOTE_A7, NOTE_FS7, NOTE_FS7, NOTE_G7, NOTE_E7, NOTE_E7, NOTE_D7, NOTE_E7, NOTE_FS7, NOTE_G7, NOTE_A7, 0,
                             NOTE_A7, NOTE_A7, NOTE_FS7, NOTE_FS7, NOTE_G7, NOTE_G7, NOTE_E7, NOTE_E7, NOTE_D7, 0, NOTE_E7, 0, NOTE_D7
                            };
   int soft_kitty_duration[] = {700, 400, 400, 700, 400, 400, 400, 400, 400, 400, 400, 200,
                                400, 400, 400, 600, 400, 400, 400, 600, 600, 100, 600, 100, 600
-                              };//Tenha certeza que os dois vetores tem o mesmo tamanho.
+                              };
   int c = 0, toca;
-  for (c = 0; c < 25; c++) { //Tem que ser o for porque não encontrei uma condição de parada pra usar o while então preciso saber o tamanho
+  for (c = 0; c < 25; c++) { //Percorre os vetores
     toca = soft_kitty_notes[c];
     tone(sb, toca, soft_kitty_duration[c]); //o sound buzzer toca a nota por tanto tempo, acende a luz que tem que acenter
     switch (toca) {
@@ -83,7 +80,7 @@ void apaga_led(void) {
 }
 
 void play_do_re_mi(void) {
-  //32 - tamanho dos dois vetores
+  //32 - tamanho dos dois vetores Garantir que os dois vetores tenham o mesmo tamanho.
   int do_re_mi_notes[] = {NOTE_C7, NOTE_D7, NOTE_E7, NOTE_F7, 0, NOTE_F7, NOTE_F7, 0,
                           NOTE_C7, NOTE_D7, NOTE_C7, NOTE_D7, 0, NOTE_D7, NOTE_D7, 0,
                           NOTE_C7, NOTE_G7, NOTE_F7, NOTE_E7, 0, NOTE_E7, NOTE_E7, 0,
@@ -93,11 +90,11 @@ void play_do_re_mi(void) {
                              400, 400, 400, 400, 200, 300, 300, 200,
                              400, 400, 400, 400, 200, 300, 300, 200,
                              400, 400, 400, 400, 200, 300, 300, 200
-                            };//Tenha certeza que os dois vetores tem o mesmo tamanho.
+                            };
   int c, toca;
   for (c = 0; c < 32; c++) {
     toca = do_re_mi_notes[c];
-    tone(sb, toca, do_re_mi_duration[c]); //o sound buzzer toca a nota por tanto tempo, acende a luz que tem que acenter
+    tone(sb, toca, do_re_mi_duration[c]); //o sound buzzer toca a nota por tanto tempo, acende a luz que tem que acender
     switch (toca) {
       case NOTE_C7:
         digitalWrite(l1, HIGH);
