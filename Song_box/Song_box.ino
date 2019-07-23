@@ -1,3 +1,9 @@
+/*
+ * Toca duas músicas, dó,ré,mi,fá e soft kitty, dependendo do botão apertado. Também conta com LEDS representando as notas tocadas.
+ * 
+ * Letícia Pegoraro Garcez 2019
+*/
+
 #include <Pitches.h>//biblioteca com os sons
 //pinos
 #define l1 1//led
