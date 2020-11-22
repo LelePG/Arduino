@@ -3,6 +3,8 @@
    Foram criadas três funções de iluminação para um cubo de LED 2X2. Para selecionar a iluminação, só colocar a função escolhida dentro do void loop
    Os LEDs devem estar ligados em pinos analógicos para garantir a compatibilidade com todas as funções. O tamanho do vetor que guarda
    a quantidade de LEDs da primeira camada é definido pela constante TAMANHO, e a constante TEMPO define o intervalo entre os "blinks" das iluminações.
+   O cubo de LED é estruturado com duas camadas sobrepostas, de modo que a iluminação pode ser feita utilizando apenas uma camada do cubo,
+   já que a segunda apenas imita a primeira. 
 
    Letícia Pegoraro Garcez 2020
 */
