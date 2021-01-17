@@ -2,50 +2,54 @@
 /*
    Projeto simples de um robôzinho que anda para frente. O código em si é bem simples, com uma ângulação variante entre dois Servo motores.
    O complicado, é montar os dois motores, e mais ainda conseguir montar perninhas para o robôzinho de maneira que elas fiquem
-   firmes, sem se desgastarem. Imagens podem ser vistas na pasta do projeto.
-
-   Letícia Pegoraro Garcez 2020
+   firmes, sem se desgastarem. Imagens podem ser vistas na pasta do projeto. A segunda versão conta com um botão de liga e desliga e um LED
+   que indica se o robô está ou não ligado. O LED e a chave de liga/desliga são implementados em hardware. O software lida somente com a
+   movimentação dos motores.
+   
+   Letícia Pegoraro Garcez 2021
 */
 
 //IMPORTAÇÃO DE BIBLIOTECAS
 #include <Servo.h>
 
-
-//LEDs para indicar o estado
+//Pinos de definição dos motores
 #define atras 8
 #define frente 9
 
-Servo pata_de_tras;//cria um objeto Servo
-Servo pata_da_frente;//cria um objeto Servo
-void setup()
-{
+//Criação dos objertos Servo
+Servo pataAtras;
+Servo pataFrente;
+
+void setup(){
   pinMode(atras, OUTPUT);
   pinMode(frente, OUTPUT);
 
-  pata_de_tras.attach(atras);
-  pata_da_frente.attach(frente);
+  pataAtras.attach(atras);
+  pataFrente.attach(frente);
 
-  //Coloca os dois motores na posição de 90 graus, e o ângulo aumenta e diminui a partir dessa posição
-  pata_de_tras.write(90);
-  pata_da_frente.write(90);
+  //Coloca os dois motores na posição de 90 graus, para o usuário poder arrumar as pazinhas dos servos na posição correta.
+  pataAtras.write(90);
+  pataFrente.write(90);
 
   delay(3000);//tempo pra arrumar os servos
 
 }
 
 //Variáveis
-int move1 = 60;
-int move2 = 105;
-int espera = 600; //tempo de espera entre cada passo
+int angulo1 = 60; //ângulo de movimentação 1
+int angulo2 = 105; //ângulo de movimentação 2
+int espera1 = 100; 
+int espera2 = 400; //tempo de espera entre cada passo
 
 void loop() {
-
-  pata_da_frente.write(move1);
-  pata_de_tras.write(move2);
-  delay(espera);
+  pataFrente.write(angulo1-10);
+  delay(espera1);
+  pataAtras.write(angulo2);
+  delay(espera2);
   
-  pata_da_frente.write(move2);
-  pata_de_tras.write(move1);
-  delay(espera);
+  pataFrente.write(angulo2+10);
+  delay(espera1);
+  pataAtras.write(angulo1);
+  delay(espera2);
 
 }
