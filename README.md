@@ -21,6 +21,9 @@ Testes de funcionamento do módulo de Joystick com LEDs.
 ###Led_RGB_Exemplos
 Uma série de funções incluindo uma caixa de música utilizando um LED RGB. Inclui funções tanto para LEDs de ânodo comum, como de cátodo comum.
 
+###RGB_RFID
+Projeto para acender um LED RGB com cores diferentes de acordo com a tag inserida no leitor.
+
 ###RFID_leitura
 Projeto simples para entender a leitura de tags RFID utilizando o sensor RC522. Utiliza uma biblioteca, presente na pasta.
 
