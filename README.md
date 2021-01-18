@@ -21,6 +21,9 @@ Testes de funcionamento do módulo de Joystick com LEDs.
 ###Led_RGB_Exemplos
 Uma série de funções incluindo uma caixa de música utilizando um LED RGB. Inclui funções tanto para LEDs de ânodo comum, como de cátodo comum.
 
+###RFID_leitura
+Projeto simples para entender a leitura de tags RFID utilizando o sensor RC522. Utiliza uma biblioteca, presente na pasta.
+
 ###Seletor_Sensores
 Um sistema com LDR, thermistor, sensor de fogo e de chuva. O projeto também tem uma tela de LCD que exibe mensagens e deixa que o usuário escolha quais sensores quer mostrar os valores.
 
@@ -56,6 +59,9 @@ Projeto que utiliza as bibliotecas SevSeg para o display de 7 segmentos e a bibl
 
 ###Tranca_Membrana_Servo
 Tranca inteligente ativada por uma senha definida pelo usuário no primeiro uso. Utiliza um servo motor e um teclado de membrana de 12 teclas. As bibliotecas são Keypad e Servo.
+
+###Tranca_RFID
+Tranca inteligente ativada por um cartão aproximado do sensor RFID.
 
 ###Whack-a-Mole-v1
 Jogo onde você deve apertar um botão corresponde a um determinado LED em um intervalo de tempo. Possui comunicação com o monitor serial para exibir a pontuação.
