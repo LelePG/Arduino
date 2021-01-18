@@ -10,7 +10,7 @@ A maioria dos projetos se limita à compreensão do funcionamento de sensores, b
 Projeto simples de um robôzinho que anda para a frente, feito com dois servos motores. Imagens das duas versões desenvolvidas do projeto podem ser encontradas na pasta do projeto.
 
 ###Braço_Servos
-Projeto de um braço mecânico criado com dois servos motores e um módulo de Joystick.
+Projeto de um braço mecânico criado com dois servos motores e um módulo de Joystick. Imagens podem ser vistas na pasta.
 
 ###Iluminações_LED_cube_2X2
 Definição de três modos de iluminação para um cubo de LED 2X2. Cada iluminação é definida como uma função, e essa função deve estar dentro do void loop.
