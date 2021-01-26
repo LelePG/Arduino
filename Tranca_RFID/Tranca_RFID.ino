@@ -1,6 +1,6 @@
 /*
    Projeto de uma tranca inteligente que abre e fecha com a aproximação de um cartão RFID e um servo motor. O projeto também implementa
-   um LED para mortrar quando a tranca está aberta e um soundbuzzer para indicar se um cartão errado foi aproximado do sensor.
+   um LED para mostrar quando a tranca está aberta e um soundbuzzer para indicar se um cartão errado foi aproximado do sensor.
 
    Letícia Pegoraro Garcez 2021
 */
